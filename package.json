@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "node serveAngular.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "client": "ng serve --open",
     "server": "nodemon ",
     "build": "ng build",
@@ -66,6 +67,10 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.4.3"
+  },
+  "engines": {
+    "node": "12.6.0",
+    "npm": "6.9.0"
   },
   "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.1.0.",
   "main": "karma.conf.js",
