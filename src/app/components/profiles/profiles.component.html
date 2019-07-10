@@ -1,9 +1,9 @@
 <div *ngIf="profiles.length === 0" class="no-items">
-  There is not profiles to display
+  <app-loader></app-loader>
 </div>
 
 
-<div *ngIf="profiles.length > 0" class="profiles-wrapper">
+<div *ngIf="profiles.length > 0" class="profiles_wrapper">
   <h2>Top rated</h2>
   <div class="top-rated">
     <div class="row">
@@ -49,7 +49,7 @@
               <span class="name">{{profile.name}} {{profile.surname}}</span>
               <span class="phone">{{profile.phone}}</span>
               <span class="rating">{{profile.rating}}</span>
-              <span class="date">{{profile.lastUpdate}}</span>
+              <span class="date">{{profile.lastUpdate | date : 'M/d/yy, h:mm a'}}</span>
           </div>
           <div class="controls">
             <a mat-button

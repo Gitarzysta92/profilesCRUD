@@ -16,13 +16,11 @@ header {
 main {
   width: calc(100% - #{$sidebar-lg}); 
   float: right;
-  padding: 50px;
   @media (max-width: 1200px) { width: calc(100% - #{$sidebar-md}) };
   @media (max-width: 992px) { width: 100%; };
-  @media (max-width: 768px) { padding: 20px; }; 
 }
 
-.sidebar-wrapper {
+.sidebar_wrapper {
   width: $sidebar-lg;
   @media (max-width: 1200px) { width: $sidebar-md };
   @media (max-width: 992px) { display: none; };

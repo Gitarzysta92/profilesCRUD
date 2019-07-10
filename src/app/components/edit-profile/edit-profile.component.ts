@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { Location, DatePipe } from '@angular/common';
 import { Observable } from 'rxjs';
 
 import { Profile } from '../../services/profiles/profile';
 import { ProfileService } from '../../services/profiles/profile.service';
-import { DatePipe } from '@angular/common';
 
 
 @Component({

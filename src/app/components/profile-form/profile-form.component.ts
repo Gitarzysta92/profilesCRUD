@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Profile } from '../../services/profiles/profile';
 import { validationMessages } from './validation-messages';
 
-const countries = ['Polish ', 'English ', 'French', 'Italian', 'German'];
+const countries = ['Polish', 'English', 'French', 'Italian', 'German'];
 
 
 interface Provider {
@@ -48,6 +49,7 @@ export class ProfileFormComponent {
     const getUserData = this.Provider.getUserData;
     if (getUserData) getUserData().subscribe(user => {
       this.profile = user;
+      console.log(user, this.profileForm);
       this.profileForm.patchValue(user);
     })
     this.buttonText = this.Provider.buttonText;

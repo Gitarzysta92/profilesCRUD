@@ -6,8 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./loader.component.scss']
 })
 export class LoaderComponent implements OnInit {
+  loaderPath: string;
 
-  constructor() { }
+  constructor() { 
+    this.loaderPath = 'assets/images/loader.gif'
+  }
 
   ngOnInit() {
   }
