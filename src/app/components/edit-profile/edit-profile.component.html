@@ -1,4 +1,9 @@
-<div class="edit-profile_wrapper light">
+<div *ngIf="!formSetup.userData" class="no-items">
+  <app-loader></app-loader>
+</div>
+
+
+<div *ngIf='formSetup.userData' class="edit-profile_wrapper light">
   <div class="page-nav light">
     <div class="row">
       <div class="col">

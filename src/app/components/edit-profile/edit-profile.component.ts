@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location, DatePipe } from '@angular/common';
-import { Observable } from 'rxjs';
 
 import { Profile } from '../../services/profiles/profile';
 import { ProfileService } from '../../services/profiles/profile.service';
+
+
+interface FormSetup {
+  buttonText: string;
+  callback: Function;
+  userData?: Profile;
+}
 
 
 @Component({
@@ -16,17 +22,18 @@ import { ProfileService } from '../../services/profiles/profile.service';
 
 export class EditProfileComponent implements OnInit {
 
-  formSetup: object = {
-    buttonText: 'Update profile',
-    callback: this.updateProfile.bind(this),
-    getUserData: this.getUserData()
-  }
+  formSetup: FormSetup;
 
   constructor(
     private route: ActivatedRoute,
     private profileService: ProfileService,
     private location: Location
-  ) {}
+  ) {
+    this.formSetup = {
+      buttonText: 'Update Profile',
+      callback: this.updateProfile.bind(this)
+    }
+  }
 
   updateProfile(formData): void {
     formData.lastUpdate = this.getCurrentDate()  
@@ -40,9 +47,11 @@ export class EditProfileComponent implements OnInit {
     return pipe.transform(currentDateTime, 'short');
   }
 
-  getUserData(): Function {
+  getUserData(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    return (): Observable<Profile> => this.profileService.getProfile(id) 
+    this.profileService.getProfile(id).subscribe(user => {
+      this.formSetup.userData = user;
+    });
   }
 
   goBack(): void {
@@ -50,5 +59,6 @@ export class EditProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getUserData();
   }
 }
