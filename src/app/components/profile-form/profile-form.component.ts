@@ -34,7 +34,6 @@ export class ProfileFormComponent {
     this.validationMessages = validationMessages;
     this.countries = countries;
     this.profileStatus = profileStatus;
-    this.isReady = false;
     this.createForm(); 
   }
 
