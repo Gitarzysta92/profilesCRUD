@@ -31,9 +31,11 @@ import { ProfileFormComponent } from './components/profile-form/profile-form.com
 import { AddProfileComponent } from './components/add-profile/add-profile.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { LoginComponent } from './components/login/login.component';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
+
 
 
 
@@ -47,7 +49,8 @@ import { AppRoutingModule } from './app-routing.module';
     ProfileFormComponent,
     AddProfileComponent,
     EditProfileComponent,
-    LoaderComponent
+    LoaderComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

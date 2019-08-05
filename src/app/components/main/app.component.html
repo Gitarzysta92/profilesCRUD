@@ -1,9 +1,10 @@
-<header class="light">
+
+<header *ngIf="currentUser" class="light">
   <div class="mobile-nav">
       <app-navigation></app-navigation>
   </div>
 </header>
-<div class="container sidebar_wrapper dark">
+<div *ngIf="currentUser" class="container sidebar_wrapper dark">
     <div class="row">
       <div class="col">
           <h2> Welcome to {{ title }}!</h2>
@@ -20,7 +21,7 @@
       </div>
     </div>
 </div>
-<main class="container-fluid light">
+<main>
     <router-outlet></router-outlet>
 </main>
 <footer></footer>

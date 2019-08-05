@@ -1,0 +1,41 @@
+.login.dark {
+  background-color: black;
+  color: #fff;
+  height: 100vh;
+  overflow: hidden;
+}
+
+
+.login .center-center {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-form-field {
+  width: 300px;
+  color: #fff;
+}
+
+.mat-form-field .ng-star-inserted {
+  color: #fff;
+}
+
+.mat-form-field-underline {
+  background-color: rgba(255, 255, 255, 1)!important;
+}
+
+button {
+  margin-top: 20px;
+  background-color: #fff;
+  color: #000;
+  width: 100%;
+}
+
+input:-internal-autofill-selected {
+  background-color: transparent;
+  background-image: none !important;
+  color: rgb(0, 0, 0) !important;
+}
