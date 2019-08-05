@@ -35,7 +35,7 @@ button {
 }
 
 input:-internal-autofill-selected {
-  background-color: transparent;
+  background-color: transparent!important;
   background-image: none !important;
   color: rgb(0, 0, 0) !important;
 }
