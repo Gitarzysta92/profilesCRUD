@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Location, DatePipe } from '@angular/common';
 
-import { Profile } from '../../services/profiles/profile';
-import { ProfileService } from '../../services/profiles/profile.service';
+import { Profile } from '../../../services/profiles/profile';
+import { ProfileService } from '../../../services/profiles/profile.service';
 
 
 @Component({
@@ -15,7 +15,7 @@ import { ProfileService } from '../../services/profiles/profile.service';
 export class AddProfileComponent implements OnInit {
 
   formSetup: object = {
-    buttonText: 'Add profile',
+    buttonText: 'Dodaj profil',
     callback: this.addProfile.bind(this)
   }
 
@@ -25,17 +25,10 @@ export class AddProfileComponent implements OnInit {
   ) {}
 
   addProfile(formData: Profile): void {
-    formData.creationDate = this.getCurrentDate();
-    formData.lastUpdate = '';
-    this.profileService.addProfile(formData)
-      .subscribe(res => res && this.location.back());
+    this.profileService.addProfile(formData);
+    this.location.back();
   }
 
-  getCurrentDate(): string {
-    const pipe = new DatePipe('en-GB');
-    const currentDateTime = Date.now();
-    return pipe.transform(currentDateTime, 'short');
-  }
 
   goBack(): void {
     this.location.back();

@@ -55,6 +55,20 @@ export class LoginComponent implements OnInit {
         }
 
         this.loading = true;
+        const isAuth = this.authenticationService.login(this.f.username.value, this.f.password.value);
+        
+        if (!isAuth) {
+            this.alertService.error('Hasło lub login jest nieprawidłowe');
+            this.loading = false;
+            return;
+        } 
+
+        console.log(this.returnUrl);
+        this.router.navigate([this.returnUrl]);
+        return true;
+
+
+        /*
         this.authenticationService.login(this.f.username.value, this.f.password.value)
             .pipe(first())
             .subscribe(
@@ -65,5 +79,7 @@ export class LoginComponent implements OnInit {
                     this.alertService.error(error);
                     this.loading = false;
                 });
+
+        */
     }
 }

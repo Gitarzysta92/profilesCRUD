@@ -9,11 +9,12 @@ import { User } from '../../services/auth-service/user';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'profilesCRUD';
+  title = 'panelu Memorium';
   currentUser: User;
   constructor(
     private authenticationService: AuthenticationService
   ) {
-    this.authenticationService.currentUser.subscribe(curr => this.currentUser = curr);
+   // this.authenticationService.currentUser.subscribe(curr => this.currentUser = curr);
+   this.currentUser = this.authenticationService.currentUser;
   }
 }

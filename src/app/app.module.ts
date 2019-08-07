@@ -24,17 +24,31 @@ import { AppComponent } from './components/main/app.component';
 
 // App components
 import { NavigationComponent } from './components/navigation/navigation.component';
-import { ProfilesComponent } from './components/profiles/profiles.component';
 import { MessagesComponent } from './components/messages/messages.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { ProfileFormComponent } from './components/profile-form/profile-form.component';
-import { AddProfileComponent } from './components/add-profile/add-profile.component';
-import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { LoginComponent } from './components/login/login.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+
+// App components -> profiles
+import { ProfilesComponent } from './components/profiles/profiles/profiles.component';
+import { ProfileComponent } from './components/profiles/profile/profile.component';
+import { ProfileFormComponent } from './components/profiles/profile-form/profile-form.component';
+import { AddProfileComponent } from './components/profiles/add-profile/add-profile.component';
+import { EditProfileComponent } from './components/profiles/edit-profile/edit-profile.component';
+
+// App components -> partners
+import { PartnersComponent } from './components/partners/partners/partners.component';
+import { PartnerComponent } from './components/partners/partner/partner.component';
+import { PartnerFormComponent } from './components/partners/partner-form/partner-form.component';
+import { AddPartnerComponent } from './components/partners/add-partner/add-partner.component';
+import { EditPartnerComponent } from './components/partners/edit-partner/edit-partner.component';
+
+// App components -> pages
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
+
+
 
 
 
@@ -50,7 +64,13 @@ import { AppRoutingModule } from './app-routing.module';
     AddProfileComponent,
     EditProfileComponent,
     LoaderComponent,
-    LoginComponent
+    LoginComponent,
+    SidebarComponent,
+    PartnersComponent,
+    PartnerComponent,
+    PartnerFormComponent,
+    AddPartnerComponent,
+    EditPartnerComponent
   ],
   imports: [
     BrowserModule,

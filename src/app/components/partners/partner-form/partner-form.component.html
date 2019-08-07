@@ -1,0 +1,65 @@
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Nazwa</mat-label>
+          <input matInput type="text" formControlName="name">
+          <mat-error *ngFor="let validation of validationMessages.name">
+            <mat-error class="error-message" *ngIf="profileForm.get('name').hasError(validation.type) && (profileForm.get('name').dirty || profileForm.get('name').touched)">{{validation.message}}</mat-error>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email">
+            <mat-error *ngFor="let validation of validationMessages.email">
+              <mat-error class="error-message" *ngIf="profileForm.get('email').hasError(validation.type) && (profileForm.get('email').dirty || profileForm.get('email').touched)">{{validation.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Adres</mat-label>
+            <input matInput type="text" formControlName="adress">
+            <mat-error *ngFor="let validation of validationMessages.adress">
+              <mat-error class="error-message" *ngIf="profileForm.get('adress').hasError(validation.type) && (profileForm.get('adress').dirty || profileForm.get('adress').touched)">{{validation.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Miasto</mat-label>
+            <input matInput type="text" formControlName="city">
+            <mat-error *ngFor="let validation of validationMessages.city">
+              <mat-error class="error-message" *ngIf="profileForm.get('city').hasError(validation.type) && (profileForm.get('city').dirty || profileForm.get('city').touched)">{{validation.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Kod pocztowy</mat-label>
+            <input matInput type="text" formControlName="postCode">
+            <mat-error *ngFor="let validation of validationMessages.postCode">
+              <mat-error class="error-message" *ngIf="profileForm.get('postCode').hasError(validation.type) && (profileForm.get('postCode').dirty || profileForm.get('postCode').touched)">{{validation.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+    </div>
+    
+    <div class="row">
+      <div class="col">
+        <button mat-button class="form-button" type="submit" [disabled]="profileForm.invalid">{{buttonText}}</button>
+      </div>
+    </div>
+  
+  </form>
+  

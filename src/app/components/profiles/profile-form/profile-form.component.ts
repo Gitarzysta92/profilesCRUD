@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { Profile } from '../../services/profiles/profile';
+import { Profile } from '../../../services/profiles/profile';
 import { validationMessages } from './validation-messages';
 
 const countries = ['Polish', 'English', 'French', 'Italian', 'German'];
@@ -46,12 +46,10 @@ export class ProfileFormComponent {
   }
 
   ngOnInit() {
+    if (!this.Provider) return;
     const getUserData = this.Provider.getUserData;
-    if (getUserData) getUserData().subscribe(user => {
-      this.profile = user;
-      console.log(user, this.profileForm);
-      this.profileForm.patchValue(user);
-    })
+    console.log(getUserData);
+    getUserData && this.profileForm.patchValue(this.Provider.getUserData());
     this.buttonText = this.Provider.buttonText;
   }
 
@@ -59,36 +57,37 @@ export class ProfileFormComponent {
   createForm() {
     this.profileForm = this.formBuilder.group({
       name: ['', Validators.compose([
-        Validators.maxLength(25),
-		    Validators.minLength(1),
-		    Validators.pattern('^[a-zA-Z]+'),
+       // Validators.maxLength(25),
+		   // Validators.minLength(1),
+		   // Validators.pattern('^[a-zA-Z]+'),
         Validators.required
       ])],
       surname: ['', Validators.compose([
-        Validators.maxLength(25),
-		    Validators.minLength(1),
-		    Validators.pattern('^[a-zA-Z]+'),
+       // Validators.maxLength(25),
+		   // Validators.minLength(1),
+		    //Validators.pattern('^[a-zA-Z]+'),
         Validators.required
       ])],
       phone: ['', Validators.compose([
-        Validators.maxLength(25),
-		    Validators.minLength(5),
-		    Validators.pattern('[+][0-9]{2}(\\s[0-9]{3})+'),
+       // Validators.maxLength(25),
+		   // Validators.minLength(5),
+		  //  Validators.pattern('[+][0-9]{2}(\\s[0-9]{3})+'),
         Validators.required
       ])],
       email: ['', Validators.compose([
-		    Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+		   // Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
         Validators.required
       ])],
-      rating: ['', Validators.compose([
+      type: ['', Validators.compose([
         Validators.max(10),
         Validators.min(0),
         Validators.required
       ])],
-      birthDate: ['', Validators.required],
-      gender: ['', Validators.required],
-      nationalities: ['', Validators.required],
-      isActive: ['', Validators.required]
+      regDate: ['', Validators.required],
+      adress: ['', Validators.required],
+      city: ['', Validators.required],
+      postCode: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 }

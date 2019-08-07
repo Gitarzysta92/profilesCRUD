@@ -1,0 +1,52 @@
+
+<app-sidebar></app-sidebar>
+
+<main>
+  <div *ngIf="profiles.length === 0" class="no-items">
+    <app-loader></app-loader>
+  </div>
+  <div *ngIf="profiles.length > 0" class="profiles_wrapper light">
+    <h2>Zakłady pogrzebowe</h2>
+    <p>Lista zakładów z podaną: nazwą, adresem e-mail, danymi kontaktowymi. Dodatkowo z tego poziomu można podjąć akcję jego usunięcia.</p>
+    <div class="row">
+      <div class="col">
+        <div class="head profile-row">
+          <div class="profile-label">
+            <span class="name">Nazwa</span>
+            <span class="phone">Email</span>
+            <span class="date">Miasto</span>
+          </div>
+          <div class="controls">
+            <span class="actions">Akcje</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <ul class="profiles">
+          <li *ngFor='let profile of profiles' class="profile profile-row" routerLink="/partners/{{profile.id}}">
+            <div class="profile-label">
+                <span class="name">{{profile.name}}</span>
+                <span class="phone">{{profile.email}}</span>
+                <span class="date">{{profile.city}}</span>
+            </div>
+            <div class="controls">
+              <a mat-button
+                class="edit"
+                (click)='$event.stopPropagation();'
+                routerLink="/partners/edit/{{profile.id}}" >Edit</a>
+              <button
+                class="delete"
+                mat-icon-button
+                (click)='removeProfile(profile.id); $event.stopPropagation();' ><mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</main>
+

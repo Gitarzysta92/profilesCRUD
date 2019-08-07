@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col">
       <mat-form-field>
-        <mat-label>Name</mat-label>
+        <mat-label>Imię</mat-label>
         <input matInput type="text" formControlName="name">
         <mat-error *ngFor="let validation of validationMessages.name">
           <mat-error class="error-message" *ngIf="profileForm.get('name').hasError(validation.type) && (profileForm.get('name').dirty || profileForm.get('name').touched)">{{validation.message}}</mat-error>
@@ -13,7 +13,7 @@
   <div class="row">
       <div class="col">
         <mat-form-field>
-          <mat-label>Surname</mat-label>
+          <mat-label>Nazwisko</mat-label>
           <input matInput type="text" formControlName="surname">
           <mat-error *ngFor="let validation of validationMessages.surname">
             <mat-error class="error-message" *ngIf="profileForm.get('surname').hasError(validation.type) && (profileForm.get('surname').dirty || profileForm.get('surname').touched)">{{validation.message}}</mat-error>
@@ -24,7 +24,7 @@
   <div class="row">
       <div class="col">
         <mat-form-field>
-          <mat-label>Phone</mat-label>
+          <mat-label>Telefon</mat-label>
           <input matInput type="tel" formControlName="phone">
           <mat-error *ngFor="let validation of validationMessages.phone">
             <mat-error class="error-message" *ngIf="profileForm.get('phone').hasError(validation.type) && (profileForm.get('phone').dirty || profileForm.get('phone').touched)">{{validation.message}}</mat-error>
@@ -46,6 +46,29 @@
   <div class="row">
       <div class="col">
         <mat-form-field>
+          <mat-label>Hasło</mat-label>
+          <input matInput type="text" formControlName="password">
+          <mat-error *ngFor="let validation of validationMessages.password">
+            <mat-error class="error-message" *ngIf="profileForm.get('password').hasError(validation.type) && (profileForm.get('password').dirty || profileForm.get('password').touched)">{{validation.message}}</mat-error>
+          </mat-error>
+        </mat-form-field>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Typ konta</mat-label>
+          <input matInput type="text" formControlName="type">
+          <mat-error *ngFor="let validation of validationMessages.type">
+            <mat-error class="error-message" *ngIf="profileForm.get('type').hasError(validation.type) && (profileForm.get('type').dirty || profileForm.get('type').touched)">{{validation.message}}</mat-error>
+          </mat-error>
+        </mat-form-field>
+      </div>
+  </div>
+  <!--
+  <div class="row">
+      <div class="col">
+        <mat-form-field>
           <mat-label>Rating</mat-label>
           <input matInput min="0" max="10" type="number" formControlName="rating">
           <mat-error *ngFor="let validation of validationMessages.rating">
@@ -54,15 +77,16 @@
         </mat-form-field>
       </div>
   </div>
+  -->
   <div class="row">
       <div class="col">
         <mat-form-field class="datepicker">
-          <mat-label>Birth date</mat-label>
-            <input matInput [matDatepicker]="birthDate" formControlName="birthDate">
-            <mat-datepicker-toggle matSuffix [for]="birthDate"></mat-datepicker-toggle>
+          <mat-label>Data dodania konta</mat-label>
+            <input matInput [matDatepicker]="regDate" formControlName="regDate">
+            <mat-datepicker-toggle matSuffix [for]="regDate"></mat-datepicker-toggle>
             <mat-datepicker #birthDate></mat-datepicker>
-            <mat-error *ngFor="let validation of validationMessages.birthDate">
-              <mat-error class="error-message" *ngIf="profileForm.get('birthDate').hasError(validation.type) && (profileForm.get('birthDate').dirty || profileForm.get('birthDate').touched)">{{validation.message}}</mat-error>
+            <mat-error *ngFor="let validation of validationMessages.regDate">
+              <mat-error class="error-message" *ngIf="profileForm.get('regDate').hasError(validation.type) && (profileForm.get('regDate').dirty || profileForm.get('regDate').touched)">{{validation.message}}</mat-error>
             </mat-error>
         </mat-form-field>
       </div>
@@ -70,10 +94,10 @@
   <div class="row">
       <div class="col">
         <mat-form-field>
-          <mat-label>Gender</mat-label>
-          <input matInput type="text" formControlName="gender">
-          <mat-error *ngFor="let validation of validationMessages.gender">
-            <mat-error class="error-message" *ngIf="profileForm.get('gender').hasError(validation.type) && (profileForm.get('gender').dirty || profileForm.get('gender').touched)">{{validation.message}}</mat-error>
+          <mat-label>Adres</mat-label>
+          <input matInput type="text" formControlName="adress">
+          <mat-error *ngFor="let validation of validationMessages.adress">
+            <mat-error class="error-message" *ngIf="profileForm.get('adress').hasError(validation.type) && (profileForm.get('adress').dirty || profileForm.get('adress').touched)">{{validation.message}}</mat-error>
           </mat-error>
         </mat-form-field>
       </div>
@@ -81,14 +105,10 @@
   <div class="row">
       <div class="col">
         <mat-form-field>
-          <mat-select formControlName="nationalities" multiple placeholder="Nationalities">
-            <mat-select-trigger>
-              {{profileForm.controls.nationalities.value}}
-            </mat-select-trigger>
-            <mat-option *ngFor="let country of countries" [value]="country">{{country}}</mat-option>
-          </mat-select>
-          <mat-error *ngFor="let validation of validationMessages.nationalities">
-            <mat-error class="error-message" *ngIf="profileForm.get('nationalities').hasError(validation.type) && (profileForm.get('nationalities').dirty || profileForm.get('nationalities').touched)">{{validation.message}}</mat-error>
+          <mat-label>Miasto</mat-label>
+          <input matInput type="text" formControlName="city">
+          <mat-error *ngFor="let validation of validationMessages.city">
+            <mat-error class="error-message" *ngIf="profileForm.get('city').hasError(validation.type) && (profileForm.get('city').dirty || profileForm.get('city').touched)">{{validation.message}}</mat-error>
           </mat-error>
         </mat-form-field>
       </div>
@@ -96,17 +116,15 @@
   <div class="row">
       <div class="col">
         <mat-form-field>
-          <mat-label>Is profile active</mat-label>
-          <mat-select [(value)]="profileForm.controls.isActive.value" formControlName="isActive">
-            <mat-option *ngFor="let status of profileStatus" [value]="status.value">{{status.view}}</mat-option>
-          </mat-select>
-          <mat-error *ngFor="let validation of validationMessages.isActive">
-            <mat-error class="error-message" *ngIf="profileForm.get('isActive').hasError(validation.type) && (profileForm.get('isActive').dirty || profileForm.get('isActive').touched)">{{validation.message}}</mat-error>
+          <mat-label>Kod pocztowy</mat-label>
+          <input matInput type="text" formControlName="postCode">
+          <mat-error *ngFor="let validation of validationMessages.postCode">
+            <mat-error class="error-message" *ngIf="profileForm.get('postCode').hasError(validation.type) && (profileForm.get('postCode').dirty || profileForm.get('postCode').touched)">{{validation.message}}</mat-error>
           </mat-error>
         </mat-form-field>
       </div>
-  </div> 
-
+  </div>
+  
   <div class="row">
     <div class="col">
       <button mat-button class="form-button" type="submit" [disabled]="profileForm.invalid">{{buttonText}}</button>

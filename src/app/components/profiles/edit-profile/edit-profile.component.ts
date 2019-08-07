@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Location, DatePipe } from '@angular/common';
 import { Observable } from 'rxjs';
 
-import { Profile } from '../../services/profiles/profile';
-import { ProfileService } from '../../services/profiles/profile.service';
+import { Profile } from '../../../services/profiles/profile';
+import { ProfileService } from '../../../services/profiles/profile.service';
 
 
 @Component({
@@ -17,9 +17,9 @@ import { ProfileService } from '../../services/profiles/profile.service';
 export class EditProfileComponent implements OnInit {
 
   formSetup: object = {
-    buttonText: 'Update profile',
+    buttonText: 'Zaktualizuj profil',
     callback: this.updateProfile.bind(this),
-    getUserData: this.getUserData()
+    getUserData: this.getUserData.bind(this)
   }
 
   constructor(
@@ -29,20 +29,14 @@ export class EditProfileComponent implements OnInit {
   ) {}
 
   updateProfile(formData): void {
-    formData.lastUpdate = this.getCurrentDate()  
-    this.profileService.updateProfile(formData)
-      .subscribe(res => res && this.location.back());
+    const newData = Object.assign(this.getUserData(), formData);
+    this.profileService.updateProfile(formData);
+    this.location.back();
   }
 
-  getCurrentDate(): string {
-    const pipe = new DatePipe('en-GB');
-    const currentDateTime = Date.now();
-    return pipe.transform(currentDateTime, 'short');
-  }
-
-  getUserData(): Function {
+  getUserData(): Profile {
     const id = this.route.snapshot.paramMap.get('id');
-    return (): Observable<Profile> => this.profileService.getProfile(id) 
+    return this.profileService.getProfile(id);
   }
 
   goBack(): void {

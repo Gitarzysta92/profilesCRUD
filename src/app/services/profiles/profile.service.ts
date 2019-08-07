@@ -6,70 +6,48 @@ import { HttpClient } from '@angular/common/http';
 import { MessageService } from '../messages/message.service';
 import { Profile } from './profile';
 
+import { profiles } from './dummy-data';
+
+let i = 6;
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ProfileService {
-  private profilesUrl = '/api/profiles';
+
+  private profiles: Profile[] = profiles;
 
   constructor(
     private http: HttpClient,
     private messageService: MessageService,
   ) { }
 
-  public getProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(this.profilesUrl)
-      .pipe(
-        tap(_ => this.log('Profiles fetched', 'ok')),
-        catchError(this.handleError<Profile[]>('getProfiles', []))
-      )
+  public getProfiles(): Profile[] {
+    return this.profiles;
   }
 
-  public getProfile(id: string): Observable<Profile> {
-    return this.http.get<Profile>(`${this.profilesUrl}/${id}`)
-      .pipe(
-        tap(() => this.log('Profile fetched', 'ok')),
-        catchError(this.handleError<Profile>('getProfile')) 
-      )
+  public getProfile(id: string): Profile {
+    return this.profiles.find(profile => profile.id === id);
   }
 
-  public addProfile(profile: Profile): Observable<Profile> {
-    return this.http.post<Profile>(`${this.profilesUrl}`, profile)
-      .pipe(
-        tap(() => this.log('Profile added', 'ok')),
-        catchError(this.handleError<Profile>('addProfile'))
-      )
+  public addProfile(profile: Profile): number {
+    const id = ''+(++i);
+    const prof = this.profiles.push(Object.assign(profile, {id} ));
+    return prof;
   }
 
-  public updateProfile(profile: Profile): Observable<Profile> {
-    return this.http.put<Profile>(`${this.profilesUrl}`, profile)
-      .pipe(
-        tap(() => this.log('Profile update', 'ok')),
-        catchError(this.handleError<Profile>('updateProfile'))
-      )
+  public updateProfile(profile: Profile): Profile[] {
+    this.profiles = this.profiles.map(curr => {
+      return curr.id === profile.id ? profile : curr;
+    });
+    return this.profiles;
   }
 
   public deleteProfile(id: string){
-    console.log(id);
-    return this.http.delete(`${this.profilesUrl}/${id}`)
-      .pipe(
-        tap(() => this.log('Profile removed', 'ok')),
-        catchError(this.handleError<Profile>('removeProfile'))
-      )
+    this.profiles = this.profiles.filter(curr => {
+      return curr.id === id ? false : curr;
+    });
+    return this.profiles;
   }
-
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      this.log(`${operation} failed: ${error.message}`, 'error');
-      return of(result as T);
-    }
-  }
-  
-  private log(message: string, type: string) {
-    this.messageService.add({content: `App: ${message}`, type });
-  }
-
 }

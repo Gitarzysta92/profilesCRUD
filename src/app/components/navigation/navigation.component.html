@@ -1,10 +1,28 @@
 <nav class="main-nav">
   <ul>
     <li><a routerLink="/profiles" routerLinkActive="current" [routerLinkActiveOptions]="{exact: true}">
-      <mat-icon>home</mat-icon> Dashboard</a>
+      <mat-icon>home</mat-icon> Lista profili</a>
     </li>
     <li><a routerLink="/profiles/add" routerLinkActive="current" [routerLinkActiveOptions]="{exact: true}">
-      <mat-icon>person_add</mat-icon> Add profile</a>
+      <mat-icon>person_add</mat-icon> Dodaj profil</a>
+    </li>
+  </ul>
+  <hr>
+  <ul>
+    <li><a routerLink="/partners" routerLinkActive="current" [routerLinkActiveOptions]="{exact: true}">
+      <mat-icon>domain</mat-icon> Lista partnerów</a>
+    </li>
+    <li><a routerLink="/partners/add" routerLinkActive="current" [routerLinkActiveOptions]="{exact: true}">
+      <mat-icon>plus_one</mat-icon> Dodaj partnera</a>
+    </li>
+  </ul>
+  <hr>
+  <ul>
+    <li><a routerLink="/pages" routerLinkActive="current" [routerLinkActiveOptions]="{exact: true}">
+      <mat-icon>dashboard</mat-icon> Podstrony</a>
+    </li>
+    <li><a routerLink="/pages/add" routerLinkActive="current" [routerLinkActiveOptions]="{exact: true}">
+      <mat-icon>add</mat-icon> Dodaj podstronę</a>
     </li>
   </ul>
 </nav>

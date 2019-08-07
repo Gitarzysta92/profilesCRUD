@@ -1,29 +1,10 @@
 
-<header *ngIf="currentUser" class="light">
+<header class="light">
   <div class="mobile-nav">
       <app-navigation></app-navigation>
   </div>
 </header>
-<div *ngIf="currentUser" class="container sidebar_wrapper dark">
-    <div class="row">
-      <div class="col">
-          <h2> Welcome to {{ title }}!</h2>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-          <app-navigation></app-navigation>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-          <app-messages></app-messages>
-      </div>
-    </div>
-</div>
-<main>
-    <router-outlet></router-outlet>
-</main>
+<router-outlet></router-outlet>
 <footer></footer>
 
 

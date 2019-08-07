@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Profile } from '../../services/profiles/profile';
-import { ProfileService } from '../../services/profiles/profile.service';
+import { Profile } from '../../../services/profiles/profile';
+import { ProfileService } from '../../../services/profiles/profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,15 +22,12 @@ export class ProfileComponent implements OnInit {
 
   getProfile(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.profileService.getProfile(id)
-      .subscribe(profile => {  
-        this.profile = profile;
-      });
+    this.profile = this.profileService.getProfile(id)
   }
 
   removeProfile(id: string): void {
     this.profileService.deleteProfile(id)
-      .subscribe(res => this.location.back());
+    this.location.back();
   }
 
   goBack(): void {

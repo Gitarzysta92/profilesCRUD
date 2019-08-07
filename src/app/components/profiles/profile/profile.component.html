@@ -1,0 +1,77 @@
+<app-sidebar></app-sidebar>
+
+
+<main>
+  <div *ngIf='profile' class="profile_wrapper light">
+      <div class="page-nav light">
+        <div class="row">
+          <div class="col">
+            <button class='back-btn' mat-button (click)="goBack()">Poprzednia strona</button>
+          </div>
+        </div>
+      </div>
+    
+      <div class="profile-head section">
+          <div class="row align-items-center">
+            <div class="col-md-5 col-sm-12 name">
+              <h2>{{profile.name}} {{profile.surname}}</h2>
+            </div>
+            <div class="col-md-5 col-sm-12">
+              <h2>Typ: {{profile.type}}</h2>
+            </div>  
+            <div class="col-md-2 col-sm-12 controls">
+              <a mat-button
+                routerLink="/profiles/edit/{{profile.id}}" >Edit</a>
+              <button
+                mat-icon-button
+                (click)='removeProfile(profile.id)' ><mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+      </div>
+    
+      <div class="profile-contact section">
+        <div class="row">
+          <div class="col-md-6 col-sm-12">
+            Email: <span>{{profile.email}}</span>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            Telefon: <span>{{profile.phone}}</span>
+          </div>
+        </div>
+      </div>
+    
+      <div>
+        <div class="row">
+          <div class="col-lg-6 col-md-12">
+            <div class="profile-dates section">
+              <div class="row">
+                <div class="col-12 ">
+                  Adres: <span>{{profile.adress}}</span>
+                </div>
+                <div class="col-12 ">
+                  Miasto: <span>{{profile.city}}</span>
+                </div>
+                <div class="col-12">
+                  Kod pocztowy: <span>{{profile.postCode}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-12">
+            <div class="profile-details section">
+              <div class="row">
+                <div class="col-12">
+                  Data rejestracji: <span>{{profile.regDate | date : 'd.M.yyyy'}}</span>
+                </div>
+                <div class="col-12">
+                  Hasło: <span>{{profile.password}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</main>
+

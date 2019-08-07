@@ -1,0 +1,18 @@
+<div class="container sidebar_wrapper dark">
+    <div class="row">
+      <div class="col">
+          <h2> Witaj w panelu Memorium!</h2>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ username }}
+            <button mat-icon-button (click)='logout()' >wyloguj</button>
+        </div>
+      </div>
+    <div class="row">
+      <div class="col">
+          <app-navigation></app-navigation>
+      </div>
+    </div>
+</div>
