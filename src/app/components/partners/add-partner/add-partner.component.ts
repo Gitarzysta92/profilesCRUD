@@ -23,8 +23,8 @@ export class AddPartnerComponent implements OnInit {
   ) {}
 
   addProfile(formData: Partner): void {
-    this.partnershipService.addPartner(formData);
-    this.location.back();
+    this.partnershipService.addPartner(formData)
+      .subscribe(res => res && this.location.back());
   }
 
 

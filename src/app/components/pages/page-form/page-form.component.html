@@ -1,0 +1,31 @@
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col">
+      <mat-form-field>
+        <mat-label>Meta dane</mat-label>
+        <input matInput type="text" formControlName="meta">
+        <mat-error *ngFor="let validation of validationMessages.meta">
+          <mat-error class="error-message" *ngIf="profileForm.get('meta').hasError(validation.type) && (profileForm.get('meta').dirty || profileForm.get('meta').touched)">{{validation.message}}</mat-error>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Zawartość</mat-label>
+          <input matInput type="text" formControlName="content">
+          <mat-error *ngFor="let validation of validationMessages.content">
+            <mat-error class="error-message" *ngIf="profileForm.get('content').hasError(validation.type) && (profileForm.get('content').dirty || profileForm.get('content').touched)">{{validation.message}}</mat-error>
+          </mat-error>
+        </mat-form-field>
+      </div>
+  </div>
+  
+  <div class="row">
+    <div class="col">
+      <button mat-button class="form-button" type="submit" [disabled]="profileForm.invalid">{{buttonText}}</button>
+    </div>
+  </div>
+
+</form>

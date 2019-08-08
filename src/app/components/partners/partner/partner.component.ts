@@ -24,12 +24,15 @@ export class PartnerComponent implements OnInit {
 
   getProfile(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.profile = this.partnershipService.getPartner(id)
+    this.partnershipService.getPartner(id)
+    .subscribe(profile => {  
+      this.profile = profile;
+    });
   }
 
   removeProfile(id: string): void {
     this.partnershipService.deletePartner(id)
-    this.location.back();
+      .subscribe(() => this.location.back());
   }
 
   goBack(): void {

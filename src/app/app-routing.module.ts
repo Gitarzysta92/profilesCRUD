@@ -16,6 +16,12 @@ import { PartnerComponent } from './components/partners/partner/partner.componen
 import { AddPartnerComponent } from './components/partners/add-partner/add-partner.component';
 import { EditPartnerComponent } from './components/partners/edit-partner/edit-partner.component';
 
+// pages
+import { PagesComponent } from './components/pages/pages/pages.component';
+import { PageComponent } from './components/pages/page/page.component';
+import { AddPageComponent } from './components/pages/add-page/add-page.component';
+import { EditPageComponent } from './components/pages/edit-page/edit-page.component';
+
 
 const routes: Routes = [
 
@@ -33,7 +39,12 @@ const routes: Routes = [
   { path: 'partners/edit/:id', component: EditPartnerComponent, canActivate:[AuthGuard] },
 
   // pages endpoints
-  
+  { path: 'pages', component: PagesComponent, canActivate:[AuthGuard] },
+  { path: 'pages/add', component: AddPageComponent, canActivate:[AuthGuard] },
+  { path: 'pages/:id', component: PageComponent, canActivate:[AuthGuard] },
+  { path: 'pages/edit/:id', component: EditPageComponent, canActivate:[AuthGuard] },
+
+
   { path: 'login', component: LoginComponent }
 ];
 

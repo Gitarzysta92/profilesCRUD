@@ -3,54 +3,66 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
+import { url } from '../../config'
 import { MessageService } from '../messages/message.service';
 import { Partner } from './partner';
 
-import { partners } from './dummy-data';
-
-
-let i = 6;
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class PartnershipService {
+
+  private partnersUrl = `${url}/api/partners`;
   
-  private partners: Partner[] = partners;
 
   constructor(
     private http: HttpClient,
     private messageService: MessageService,
   ) { }
 
-  public getPartners(): Partner[] {
-    return this.partners;
+  public addPartner(partner: Partner): Observable<Partner> {
+    return this.http.post<Partner>(`${this.partnersUrl}`, partner)
+      .pipe(
+        catchError(this.handleError<Partner>('addPartner'))
+      );
   }
 
-  public getPartner(id: string): Partner {
-    return this.partners.find(profile => profile.id === id);
+  public getPartners(): Observable<Partner[]> {
+    return this.http.get<Partner[]>(this.partnersUrl)
+      .pipe(
+        catchError(this.handleError<Partner[]>('getPartners'))
+      );
   }
 
-  public addPartner(partner: Partner): number {
-    const id = ''+(++i);
-    const prof = this.partners.push(Object.assign(partner, {id} ));
-    return prof;
+  public getPartner(id: string): Observable<Partner> {
+    return this.http.get<Partner>(`${this.partnersUrl}/${id}`)
+      .pipe(
+        catchError(this.handleError<Partner>('getPartner'))
+      );
   }
 
-  public updatePartner(partner: Partner): Partner[] {
-    this.partners = this.partners.map(curr => {
-      return curr.id === partner.id ? partner : curr;
-    });
-    return this.partners;
+  public updatePartner(partner: Partner): Observable<Partner> {
+    return this.http.put<Partner>(`${this.partnersUrl}`, partner)
+      .pipe(
+        catchError(this.handleError<Partner>('updatePartner'))
+      );
   }
 
   public deletePartner(id: string){
-    this.partners = this.partners.filter(curr => {
-      return curr.id === id ? false : curr;
-    });
-    return this.partners;
+    return this.http.delete<Partner>(`${this.partnersUrl}/${id}`)
+      .pipe(
+        catchError(this.handleError<Partner>('deletePartner'))
+      );
   }
 
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+      return of(result as T);
+    }
+  }
 
 }
 

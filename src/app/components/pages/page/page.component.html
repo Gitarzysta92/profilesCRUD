@@ -1,0 +1,40 @@
+<app-sidebar></app-sidebar>
+
+
+<main>
+  <div *ngIf='profile' class="profile_wrapper light">
+      <div class="page-nav light">
+        <div class="row">
+          <div class="col">
+            <button class='back-btn' mat-button (click)="goBack()">Poprzednia strona</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-head section">
+          <div class="row align-items-center">
+            <div class="col-md-10 col-sm-12 name">
+              <h2>{{profile.meta}}</h2>
+            </div>
+            <div class="col-md-2 col-sm-12 controls">
+              <a mat-button
+                routerLink="/pages/edit/{{profile.id}}" >Edit</a>
+              <button
+                mat-icon-button
+                (click)='removeProfile(profile.id)' ><mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+      </div>
+    
+      <div class="profile-contact section">
+        <div class="row">
+          <div class="col-md-6 col-sm-12">
+            Zawartość: <span>{{profile.content}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+</main>
+
+

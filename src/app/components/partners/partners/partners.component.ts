@@ -16,12 +16,15 @@ export class PartnersComponent implements OnInit {
   constructor(private partnershipService: PartnershipService) {}
 
   getProfiles(): void {
-    console.log(this.partnershipService);
-    this.profiles = this.partnershipService.getPartners();
+    this.partnershipService.getPartners()
+      .subscribe(profiles => {
+        this.profiles = profiles;
+      });
   }
 
   removeProfile(id: string): void {
-    this.profiles = this.partnershipService.deletePartner(id)
+    this.partnershipService.deletePartner(id)
+      .subscribe(res => this.getProfiles());
   }
   
   ngOnInit() {

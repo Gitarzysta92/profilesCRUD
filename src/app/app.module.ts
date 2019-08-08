@@ -43,12 +43,17 @@ import { PartnerFormComponent } from './components/partners/partner-form/partner
 import { AddPartnerComponent } from './components/partners/add-partner/add-partner.component';
 import { EditPartnerComponent } from './components/partners/edit-partner/edit-partner.component';
 
+
 // App components -> pages
+import { PagesComponent } from './components/pages/pages/pages.component';
+import { AddPageComponent } from './components/pages/add-page/add-page.component';
+import { EditPageComponent } from './components/pages/edit-page/edit-page.component';
+import { PageComponent } from './components/pages/page/page.component';
+import { PageFormComponent } from './components/pages/page-form/page-form.component';
+
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
-
-
 
 
 
@@ -70,7 +75,12 @@ import { AppRoutingModule } from './app-routing.module';
     PartnerComponent,
     PartnerFormComponent,
     AddPartnerComponent,
-    EditPartnerComponent
+    EditPartnerComponent,
+    PagesComponent,
+    AddPageComponent,
+    EditPageComponent,
+    PageComponent,
+    PageFormComponent
   ],
   imports: [
     BrowserModule,

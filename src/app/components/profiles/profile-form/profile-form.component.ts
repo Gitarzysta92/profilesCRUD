@@ -11,7 +11,7 @@ const countries = ['Polish', 'English', 'French', 'Italian', 'German'];
 interface Provider {
   buttonText: string;
   callback(formData: Profile ): void;
-  getUserData?(): any;
+  userData?: any;
 }
 
 @Component({
@@ -46,10 +46,10 @@ export class ProfileFormComponent {
   }
 
   ngOnInit() {
-    if (!this.Provider) return;
-    const getUserData = this.Provider.getUserData;
-    console.log(getUserData);
-    getUserData && this.profileForm.patchValue(this.Provider.getUserData());
+    if (this.Provider.userData) {
+      this.Provider.userData
+        .subscribe(res => res && this.profileForm.patchValue(res))
+    } 
     this.buttonText = this.Provider.buttonText;
   }
 

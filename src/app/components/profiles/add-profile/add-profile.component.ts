@@ -25,8 +25,8 @@ export class AddProfileComponent implements OnInit {
   ) {}
 
   addProfile(formData: Profile): void {
-    this.profileService.addProfile(formData);
-    this.location.back();
+    this.profileService.addProfile(formData)
+      .subscribe(res => res && this.location.back());
   }
 
 

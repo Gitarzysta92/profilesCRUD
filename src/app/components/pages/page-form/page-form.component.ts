@@ -1,26 +1,29 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { Partner } from '../../../services/partnership/partner';
+import { Page } from '../../../services/pages/page';
 import { validationMessages } from './validation-messages';
 
 interface Provider {
   buttonText: string;
-  callback(formData: Partner ): void;
+  callback(formData: Page ): void;
   userData?: any;
 }
 
+
 @Component({
-  selector: 'app-partner-form',
-  templateUrl: './partner-form.component.html',
-  styleUrls: ['./partner-form.component.scss']
+  selector: 'app-page-form',
+  templateUrl: './page-form.component.html',
+  styleUrls: ['./page-form.component.scss']
 })
 
-export class PartnerFormComponent {
+
+export class PageFormComponent {
   @Input() Provider: Provider;
 
 
+  countries: Array<string>;
   profileForm: FormGroup;
   profile: object;
   validationMessages: object;
@@ -51,19 +54,18 @@ export class PartnerFormComponent {
 
   createForm() {
     this.profileForm = this.formBuilder.group({
-      name: ['', Validators.compose([
+      content: ['', Validators.compose([
        // Validators.maxLength(25),
 		   // Validators.minLength(1),
 		   // Validators.pattern('^[a-zA-Z]+'),
         Validators.required
       ])],
-      email: ['', Validators.compose([
-		   // Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+      meta: ['', Validators.compose([
+       // Validators.maxLength(25),
+		   // Validators.minLength(1),
+		    //Validators.pattern('^[a-zA-Z]+'),
         Validators.required
-      ])],
-      adress: ['', Validators.required],
-      city: ['', Validators.required],
-      postCode: ['', Validators.required]
+      ])]
     });
   }
 }

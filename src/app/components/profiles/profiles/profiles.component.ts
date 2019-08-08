@@ -15,14 +15,20 @@ export class ProfilesComponent implements OnInit {
   profiles: Profile[] = [];
   topRated: Profile[] = [];
 
-  constructor(private profileService: ProfileService) {}
+  constructor(
+    private profileService: ProfileService
+    ) {}
 
   getProfiles(): void {
-    this.profiles = this.profileService.getProfiles();
+    this.profileService.getProfiles()
+      .subscribe(profiles => {
+        this.profiles = profiles;
+      });
   }
 
   removeProfile(id: string): void {
-    this.profiles = this.profileService.deleteProfile(id)
+    this.profileService.deleteProfile(id)
+      .subscribe(res => this.getProfiles());
   }
   
   ngOnInit() {

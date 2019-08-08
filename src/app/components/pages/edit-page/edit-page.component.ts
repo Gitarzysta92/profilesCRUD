@@ -3,47 +3,44 @@ import { ActivatedRoute } from '@angular/router';
 import { Location, DatePipe } from '@angular/common';
 import { Observable } from 'rxjs';
 
-import { Profile } from '../../../services/profiles/profile';
-import { ProfileService } from '../../../services/profiles/profile.service';
-
+import { Page } from '../../../services/pages/page';
+import { PagesService } from '../../../services/pages/pages.service';
 
 interface FormSetup {
   buttonText: string;
   callback: Function;
-  userData?: Observable<Profile>;
+  userData?: Observable<Page>;
 }
 
-
 @Component({
-  selector: 'app-edit-profile',
-  templateUrl: './edit-profile.component.html',
-  styleUrls: ['./edit-profile.component.scss']
+  selector: 'app-edit-page',
+  templateUrl: './edit-page.component.html',
+  styleUrls: ['./edit-page.component.scss']
 })
 
-
-export class EditProfileComponent implements OnInit {
+export class EditPageComponent implements OnInit {
 
   formSetup: FormSetup = {
-    buttonText: 'Zaktualizuj profil',
+    buttonText: 'Zaktualizuj stronę',
     callback: this.updateProfile.bind(this)
   }
 
   constructor(
     private route: ActivatedRoute,
-    private profileService: ProfileService,
+    private pagesService: PagesService,
     private location: Location
   ) {}
 
   updateProfile(formData): void {
     const id = this.route.snapshot.paramMap.get('id');
     const resultWithId = Object.assign(formData, { id });
-    this.profileService.updateProfile(resultWithId)
+    this.pagesService.updatePage(resultWithId)
       .subscribe(res => res && this.location.back());
   }
 
   getUserData(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.formSetup.userData = this.profileService.getProfile(id);
+    this.formSetup.userData = this.pagesService.getPage(id);
   }
 
   goBack(): void {

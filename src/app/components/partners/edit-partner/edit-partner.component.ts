@@ -6,6 +6,13 @@ import { Observable } from 'rxjs';
 import { Partner } from '../../../services/partnership/partner';
 import { PartnershipService } from '../../../services/partnership/partnership.service';
 
+
+interface FormSetup {
+  buttonText: string;
+  callback: Function;
+  userData?: Observable<Partner>;
+}
+
 @Component({
   selector: 'app-edit-partner',
   templateUrl: './edit-partner.component.html',
@@ -15,10 +22,9 @@ import { PartnershipService } from '../../../services/partnership/partnership.se
 
 export class EditPartnerComponent implements OnInit {
 
-  formSetup: object = {
+  formSetup: FormSetup = {
     buttonText: 'Zaktualizuj profil',
-    callback: this.updateProfile.bind(this),
-    getUserData: this.getUserData.bind(this)
+    callback: this.updateProfile.bind(this)
   }
 
   constructor(
@@ -28,14 +34,15 @@ export class EditPartnerComponent implements OnInit {
   ) {}
 
   updateProfile(formData): void {
-    const newData = Object.assign(this.getUserData(), formData);
-    this.partnershipService.updatePartner(formData);
-    this.location.back();
+    const id = this.route.snapshot.paramMap.get('id');
+    const resultWithId = Object.assign(formData, { id });
+    this.partnershipService.updatePartner(resultWithId)
+      .subscribe(res => res && this.location.back());
   }
 
-  getUserData(): Partner {
+  getUserData(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    return this.partnershipService.getPartner(id);
+    this.formSetup.userData = this.partnershipService.getPartner(id);
   }
 
   goBack(): void {

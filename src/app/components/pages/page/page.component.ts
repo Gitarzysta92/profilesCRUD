@@ -2,34 +2,35 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Profile } from '../../../services/profiles/profile';
-import { ProfileService } from '../../../services/profiles/profile.service';
+import { Page } from '../../../services/pages/page';
+import { PagesService } from '../../../services/pages/pages.service';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  selector: 'app-page',
+  templateUrl: './page.component.html',
+  styleUrls: ['./page.component.scss']
 })
 
-export class ProfileComponent implements OnInit {
-  profile: Profile;
+
+export class PageComponent implements OnInit {
+  profile: Page;
   
   constructor(
     private route: ActivatedRoute,
-    private profileService: ProfileService,
+    private pagesService: PagesService,
     private location: Location
   ) {}
 
   getProfile(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.profileService.getProfile(id)
+    this.pagesService.getPage(id)
       .subscribe(profile => {  
         this.profile = profile;
       });
   }
 
   removeProfile(id: string): void {
-    this.profileService.deleteProfile(id)
+    this.pagesService.deletePage(id)
       .subscribe(() => this.location.back());
   }
 
@@ -41,5 +42,5 @@ export class ProfileComponent implements OnInit {
     this.getProfile();
     
   }
-
 }
+
