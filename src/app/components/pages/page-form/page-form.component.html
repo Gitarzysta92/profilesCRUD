@@ -1,11 +1,17 @@
-<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+<button mat-button class="btn btn-danger" type="button" (click)="addModule('button')"> Dodaj przycisk </button>
+<button mat-button class="btn btn-danger" type="button" (click)="addModule('photo')"> Dodaj zdjęcie </button>
+<button mat-button class="btn btn-danger" type="button" (click)="addModule('text')"> Dodaj tekst </button>
+<button mat-button class="btn btn-danger" type="button" (click)="addModule('title')"> Dodaj tytuł </button>
+
+<form [formGroup]="pageForm" (ngSubmit)="onSubmit()">
   <div class="row">
     <div class="col">
       <mat-form-field>
-        <mat-label>Meta dane</mat-label>
-        <input matInput type="text" formControlName="meta">
-        <mat-error *ngFor="let validation of validationMessages.meta">
-          <mat-error class="error-message" *ngIf="profileForm.get('meta').hasError(validation.type) && (profileForm.get('meta').dirty || profileForm.get('meta').touched)">{{validation.message}}</mat-error>
+        <mat-label>adres</mat-label>
+        <input matInput type="text" formControlName="path">
+        <mat-error *ngFor="let validation of validationMessages.path">
+          <mat-error class="error-message" *ngIf="pageForm.get('path').hasError(validation.type) && (pageForm.get('path').dirty || pageForm.get('path').touched)">{{validation.message}}</mat-error>
         </mat-error>
       </mat-form-field>
     </div>
@@ -13,18 +19,65 @@
   <div class="row">
       <div class="col">
         <mat-form-field>
-          <mat-label>Zawartość</mat-label>
-          <input matInput type="text" formControlName="content">
-          <mat-error *ngFor="let validation of validationMessages.content">
-            <mat-error class="error-message" *ngIf="profileForm.get('content').hasError(validation.type) && (profileForm.get('content').dirty || profileForm.get('content').touched)">{{validation.message}}</mat-error>
+          <mat-label>tytuł</mat-label>
+          <input matInput type="text" formControlName="title">
+          <mat-error *ngFor="let validation of validationMessages.title">
+            <mat-error class="error-message" *ngIf="pageForm.get('title').hasError(validation.type) && (pageForm.get('title').dirty || pageForm.get('title').touched)">{{validation.message}}</mat-error>
           </mat-error>
         </mat-form-field>
       </div>
   </div>
-  
+  <div class="card-body" formArrayName="modules">
+    <div class="col-12" *ngFor="let module of modulesFormGroup.controls; let i = index;">
+      <div [formGroupName]="i" class="row">
+
+        <!-- Title module -->
+        <div class="module-block full" *ngIf="moduleName(i, 'button')">
+          <h2>Button</h2>
+          <mat-form-field>
+            <mat-label>tytuł</mat-label>
+            <input matInput type="text" formControlName="type">
+          </mat-form-field>
+          <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
+        </div>
+
+        <!-- Title module -->
+        <div class="module-block full" *ngIf="moduleName(i, 'photo')">
+            <h2>Zdjęcie</h2>
+            <mat-form-field>
+              <mat-label>tytuł</mat-label>
+              <input matInput type="text" formControlName="type">
+            </mat-form-field>
+            <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
+        </div>
+
+        <!-- Title module -->
+        <div class="module-block full" *ngIf="moduleName(i, 'text')">
+            <h2>Text</h2>
+            <mat-form-field>
+              <mat-label>tytuł</mat-label>
+              <input matInput type="text" formControlName="type">
+            </mat-form-field>
+            <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
+        </div>
+
+        <!-- Title module -->
+        <div class="module-block full" *ngIf="moduleName(i, 'title')">
+            <h2>Tytuł</h2>
+            <mat-form-field>
+              <mat-label>tytuł</mat-label>
+              <input matInput type="text" formControlName="type">
+            </mat-form-field>
+            <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
+        </div>
+    
+      </div>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col">
-      <button mat-button class="form-button" type="submit" [disabled]="profileForm.invalid">{{buttonText}}</button>
+      <button mat-button class="form-button" type="submit" [disabled]="pageForm.invalid">{{buttonText}}</button>
     </div>
   </div>
 

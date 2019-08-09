@@ -1,11 +1,11 @@
 export const validationMessages = {
-  'name': [
+  'path': [
     { type: 'required', message: 'To pole jest wymagane' },
    // { type: 'minlength', message: 'Name must have at least one character' },
    // { type: 'maxlength', message: 'Name cannot be more than 25 characters long' },
    // { type: 'pattern', message: 'Your Name must contain only letters' }
   ],
-  'surname': [
+  'title': [
     { type: 'required', message: 'To pole jest wymagane' },
    // { type: 'minlength', message: 'Surname must have at least one character' },
    // { type: 'maxlength', message: 'Surname cannot be more than 25 characters long' },
