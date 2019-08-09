@@ -12,8 +12,8 @@
       <div class="col">
         <div class="head profile-row">
           <div class="profile-label">
-            <span class="name">Meta Dane</span>
-            <span class="phone">Zawartość</span>
+            <span class="name">Nazwa podstrony</span>
+            <span class="phone">Ścieżka podstrony</span>
           </div>
           <div class="controls">
             <span class="actions">Akcje</span>
@@ -25,10 +25,10 @@
     <div class="row">
       <div class="col">
         <ul class="profiles">
-          <li *ngFor='let profile of profiles' class="profile profile-row" routerLink="/pages/{{profile.id}}">
+          <li *ngFor='let profile of profiles' class="profile profile-row">
             <div class="profile-label">
-                <span class="name">{{profile.meta}}</span>
-                <span class="phone">{{profile.content}}</span>
+                <span class="name">{{profile.title}}</span>
+                <span class="phone">{{profile.path}}</span>
             </div>
             <div class="controls">
               <a mat-button

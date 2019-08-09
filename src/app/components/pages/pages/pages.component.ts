@@ -20,7 +20,12 @@ export class PagesComponent implements OnInit {
   getProfiles(): void {
     this.pagesService.getPages()
       .subscribe(profiles => {
-        this.profiles = profiles;
+        this.profiles = profiles.map(profile => {
+          return {
+            id: profile.page_ID,
+            ...(JSON.parse(profile.meta))
+          }
+        });
       });
   }
 

@@ -24,11 +24,11 @@ export class AddProfileComponent implements OnInit {
     private location: Location
   ) {}
 
+  
   addProfile(formData: Profile): void {
     this.profileService.addProfile(formData)
       .subscribe(res => res && this.location.back());
   }
-
 
   goBack(): void {
     this.location.back();

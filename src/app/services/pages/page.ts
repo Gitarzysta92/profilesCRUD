@@ -1,5 +1,6 @@
 export class Page {
-  id: string;
+  page_ID?: string;
+  id?: string;
   meta: string;
   content: string;
 }

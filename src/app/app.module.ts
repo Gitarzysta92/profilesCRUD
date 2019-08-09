@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
+import { DemoMaterialModule } from './material-module';
 
 // import form material elements
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -97,7 +98,8 @@ import { AppRoutingModule } from './app-routing.module';
     MatSelectModule,
     MatDatepickerModule,
     MatSlideToggleModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    DemoMaterialModule
   ],
   providers: [
     MatNativeDateModule

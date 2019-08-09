@@ -1,21 +1,5 @@
-
-<button mat-button class="btn btn-danger" type="button" (click)="addModule('button')"> Dodaj przycisk </button>
-<button mat-button class="btn btn-danger" type="button" (click)="addModule('photo')"> Dodaj zdjęcie </button>
-<button mat-button class="btn btn-danger" type="button" (click)="addModule('text')"> Dodaj tekst </button>
-<button mat-button class="btn btn-danger" type="button" (click)="addModule('title')"> Dodaj tytuł </button>
-
 <form [formGroup]="pageForm" (ngSubmit)="onSubmit()">
-  <div class="row">
-    <div class="col">
-      <mat-form-field>
-        <mat-label>adres</mat-label>
-        <input matInput type="text" formControlName="path">
-        <mat-error *ngFor="let validation of validationMessages.path">
-          <mat-error class="error-message" *ngIf="pageForm.get('path').hasError(validation.type) && (pageForm.get('path').dirty || pageForm.get('path').touched)">{{validation.message}}</mat-error>
-        </mat-error>
-      </mat-form-field>
-    </div>
-  </div>
+  <h2>Dane strony</h2>
   <div class="row">
       <div class="col">
         <mat-form-field>
@@ -27,49 +11,124 @@
         </mat-form-field>
       </div>
   </div>
-  <div class="card-body" formArrayName="modules">
-    <div class="col-12" *ngFor="let module of modulesFormGroup.controls; let i = index;">
-      <div [formGroupName]="i" class="row">
+  <div class="row">
+    <div class="col">
+      <mat-form-field>
+        <mat-label>adres url</mat-label>
+        <input matInput placeholder="/przykladowa-strona" type="text" formControlName="path">
+        <mat-error *ngFor="let validation of validationMessages.path">
+          <mat-error class="error-message" *ngIf="pageForm.get('path').hasError(validation.type) && (pageForm.get('path').dirty || pageForm.get('path').touched)">{{validation.message}}</mat-error>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <mat-form-field>
+        <mat-label>Widoczność w menu</mat-label>
+        <mat-select [(value)]="selected" multiple formControlName="menu">
+          <mat-option value="signed">Zalogowany</mat-option>
+          <mat-option value="unSigned">Niezalogowany</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <h2>Zawartość strony</h2>
+  <button mat-button class="btn btn-danger" type="button" (click)="addModule('button')"> Dodaj przycisk </button>
+  <button mat-button class="btn btn-danger" type="button" (click)="addModule('photo')"> Dodaj zdjęcie </button>
+  <button mat-button class="btn btn-danger" type="button" (click)="addModule('text')"> Dodaj tekst </button>
+  <button mat-button class="btn btn-danger" type="button" (click)="addModule('title')"> Dodaj tytuł </button>
+  <button mat-button class="btn btn-danger" type="button" (click)="addModule('form')"> Dodaj formularz </button>
+  <div class="card-body" formArrayName="modules" cdkDropList (cdkDropListDropped)="drop($event)">
+    <div class="col-12" *ngFor="let module of modulesFormGroup.controls; let i = index;" cdkDrag>
+      <div [formGroupName]="i" class="row" >
 
-        <!-- Title module -->
+        <!-- Button module -->
         <div class="module-block full" *ngIf="moduleName(i, 'button')">
-          <h2>Button</h2>
-          <mat-form-field>
-            <mat-label>tytuł</mat-label>
-            <input matInput type="text" formControlName="type">
-          </mat-form-field>
-          <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
+          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Button</mat-panel-title>
+                <mat-panel-description>
+                  modul {{panelOpenState ? 'otwarty' : 'zamknięty'}}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-form-field>
+              <mat-label>tytuł</mat-label>
+              <input matInput type="text" formControlName="type">
+            </mat-form-field>
+            <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
+          </mat-expansion-panel>
         </div>
 
-        <!-- Title module -->
+        <!-- Photo module -->
         <div class="module-block full" *ngIf="moduleName(i, 'photo')">
-            <h2>Zdjęcie</h2>
-            <mat-form-field>
-              <mat-label>tytuł</mat-label>
-              <input matInput type="text" formControlName="type">
-            </mat-form-field>
-            <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                  <mat-panel-title>Zdjęcie</mat-panel-title>
+                  <mat-panel-description>
+                    modul {{panelOpenState ? 'otwarty' : 'zamknięty'}}
+                  </mat-panel-description>
+              </mat-expansion-panel-header>
+              <mat-form-field>
+                <mat-label>tytuł</mat-label>
+                <input matInput type="text" formControlName="type">
+              </mat-form-field>
+              <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
+            </mat-expansion-panel>
         </div>
 
-        <!-- Title module -->
+        <!-- Text module -->
         <div class="module-block full" *ngIf="moduleName(i, 'text')">
-            <h2>Text</h2>
+          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Text</mat-panel-title>
+                <mat-panel-description>
+                  modul {{panelOpenState ? 'otwarty' : 'zamknięty'}}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
             <mat-form-field>
               <mat-label>tytuł</mat-label>
               <input matInput type="text" formControlName="type">
             </mat-form-field>
             <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
+          </mat-expansion-panel>
         </div>
 
         <!-- Title module -->
         <div class="module-block full" *ngIf="moduleName(i, 'title')">
+          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Title</mat-panel-title>
+                <mat-panel-description>
+                  modul {{panelOpenState ? 'otwarty' : 'zamknięty'}}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
             <h2>Tytuł</h2>
             <mat-form-field>
               <mat-label>tytuł</mat-label>
               <input matInput type="text" formControlName="type">
             </mat-form-field>
             <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
+          </mat-expansion-panel>
         </div>
+
+        <!-- Form module -->
+        <div class="module-block full" *ngIf="moduleName(i, 'Form')">
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                  <mat-panel-title>Formularz</mat-panel-title>
+                  <mat-panel-description>
+                    modul {{panelOpenState ? 'otwarty' : 'zamknięty'}}
+                  </mat-panel-description>
+              </mat-expansion-panel-header>
+              <mat-form-field>
+                <mat-label>tytuł</mat-label>
+                <input matInput type="text" formControlName="type">
+              </mat-form-field>
+              <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
+            </mat-expansion-panel>
+          </div>
     
       </div>
     </div>
