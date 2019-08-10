@@ -84,7 +84,7 @@ export class ProfileFormComponent {
         Validators.required
       ])],
       regDate: ['', Validators.required],
-      adress: ['', Validators.required],
+      address: ['', Validators.required],
       city: ['', Validators.required],
       postCode: ['', Validators.required],
       password: ['', Validators.required]

@@ -41,9 +41,13 @@ export class PartnerFormComponent {
   }
 
   ngOnInit() {
+    console.log(this.Provider.userData);
     if (this.Provider.userData) {
       this.Provider.userData
-        .subscribe(res => res && this.profileForm.patchValue(res))
+        .subscribe(res => {
+          res && this.profileForm.patchValue(res);
+         
+        })
     } 
     this.buttonText = this.Provider.buttonText;
   }
@@ -61,7 +65,7 @@ export class PartnerFormComponent {
 		   // Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
         Validators.required
       ])],
-      adress: ['', Validators.required],
+      address: ['', Validators.required],
       city: ['', Validators.required],
       postCode: ['', Validators.required]
     });

@@ -2,15 +2,28 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 import { Page } from '../../../services/pages/page';
 import { validationMessages } from './validation-messages';
+import { FindValueSubscriber } from 'rxjs/internal/operators/find';
 
 
 interface Provider {
   buttonText: string;
   callback(formData: Page ): void;
   userData?: any;
+}
+
+interface Module {
+  type?: string;
+  title?: string;
+  alt?: string;
+  url?: string;
+  text?: string;
+  target?: string;
+  email?: string;
+  inputs?: string;
 }
 
 
@@ -28,6 +41,9 @@ export class PageFormComponent {
   public modulesList: FormArray;
   public modulesNames;
   public dbData;
+  public Editor = ClassicEditor;
+
+  expansionsState = [];
 
   profile: object;
   validationMessages: object;
@@ -41,6 +57,10 @@ export class PageFormComponent {
   onSubmit() {
     const data = this.prepareData(this.pageForm.value)
     this.Provider.callback(data);
+  }
+
+  setExpansionState(index, bool) {
+    this.expansionsState[index] = bool;
   }
 
   prepareData(formData) {
@@ -86,7 +106,8 @@ export class PageFormComponent {
 
   createModules() {
     this.dbData.modules.forEach(mod => {
-      this.addModule(mod.type);
+      const { type, ...values } = mod;
+      this.addModule(type, values);
     })
   }
 
@@ -105,7 +126,6 @@ export class PageFormComponent {
       this.modulesList.setControl(i, current);
     }
     this.modulesList.setControl(to, temp);
-    console.log(this.modulesList);
   }
 
 
@@ -125,23 +145,23 @@ export class PageFormComponent {
 
 
   // modules actions
-  addModule(type) {
+  addModule(type, values) {
     //console.log(type);
     switch(type) {
       case 'button':
-      this.modulesList.push(this.createButton());
+      this.modulesList.push(this.createButton(values));
       break;
       case 'photo':
-      this.modulesList.push(this.createPhoto());
+      this.modulesList.push(this.createPhoto(values));
       break;
       case 'text':
-      this.modulesList.push(this.createText());
+      this.modulesList.push(this.createText(values));
       break;
       case 'title':
-      this.modulesList.push(this.createTitle());
+      this.modulesList.push(this.createTitle(values));
       break;
       case 'form':
-      this.modulesList.push(this.createPageForm());
+      this.modulesList.push(this.createPageForm(values));
       break;
     }
   }
@@ -152,40 +172,47 @@ export class PageFormComponent {
   }
 
   // modules
-  createButton(): FormGroup {
+  createButton(values: Module = {}): FormGroup {
     return this.formBuilder.group({
       type: 'button',
-      text: '',
-      url: ''
+      text: values.text || '',
+      url: values.url || '',
+      target: values.target || ''
      // type: ['type', Validators.compose([Validators.required])], // i.e Email, Phone
     });
   }
 
-  createPhoto(): FormGroup {
+  createPhoto(values: Module = {}): FormGroup {
     return this.formBuilder.group({
       type: 'photo',
-      url: ''
+      title: values.title || '',
+      alt: values.alt || '',
+      url: values.url || ''
     });
   }
 
-  createText(): FormGroup {
+  createText(values: Module = {}): FormGroup {
     return this.formBuilder.group({
       type: 'text',
-      text: ''
+      text: values.text || ''
     });
   }
 
-  createTitle(): FormGroup {
+  createTitle(values: Module = {}): FormGroup {
     return this.formBuilder.group({
       type: 'title',
-      text: ''
+      text: values.text || ''
     });
   }
 
-  createPageForm(): FormGroup {
+  createPageForm(values: Module = {}): FormGroup {
+    console.log('form');
     return this.formBuilder.group({
-      type: 'title',
-      text: ''
+      type: 'form',
+      text: values.text || '',
+      inputs: values.inputs || '',
+      title: values.title || '',
+      email: values.email || ''
     });
   }
 

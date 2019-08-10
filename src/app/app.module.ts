@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
 
@@ -99,7 +100,8 @@ import { AppRoutingModule } from './app-routing.module';
     MatDatepickerModule,
     MatSlideToggleModule,
     MatNativeDateModule,
-    DemoMaterialModule
+    DemoMaterialModule,
+    CKEditorModule
   ],
   providers: [
     MatNativeDateModule

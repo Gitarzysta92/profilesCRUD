@@ -7,4 +7,4 @@ const localhost = 'http://localhost:3000';
 
 
 
-export const url = localhost;
+export const url = heroku;

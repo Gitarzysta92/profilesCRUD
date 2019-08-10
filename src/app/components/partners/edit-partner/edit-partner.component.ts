@@ -50,6 +50,7 @@ export class EditPartnerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getUserData();
   }
 }
 

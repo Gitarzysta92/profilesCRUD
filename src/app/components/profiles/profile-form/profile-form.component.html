@@ -95,9 +95,9 @@
       <div class="col">
         <mat-form-field>
           <mat-label>Adres</mat-label>
-          <input matInput type="text" formControlName="adress">
-          <mat-error *ngFor="let validation of validationMessages.adress">
-            <mat-error class="error-message" *ngIf="profileForm.get('adress').hasError(validation.type) && (profileForm.get('adress').dirty || profileForm.get('adress').touched)">{{validation.message}}</mat-error>
+          <input matInput type="text" formControlName="address">
+          <mat-error *ngFor="let validation of validationMessages.address">
+            <mat-error class="error-message" *ngIf="profileForm.get('address').hasError(validation.type) && (profileForm.get('address').dirty || profileForm.get('address').touched)">{{validation.message}}</mat-error>
           </mat-error>
         </mat-form-field>
       </div>
