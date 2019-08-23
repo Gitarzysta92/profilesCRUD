@@ -5,8 +5,10 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 import { Page } from '../../../services/pages/page';
+import { PagesService} from '../../../services/pages/pages.service';
 import { validationMessages } from './validation-messages';
 import { FindValueSubscriber } from 'rxjs/internal/operators/find';
+import { renderFlagCheckIfStmt } from '@angular/compiler/src/render3/view/template';
 
 
 interface Provider {
@@ -24,6 +26,12 @@ interface Module {
   target?: string;
   email?: string;
   inputs?: string;
+  formType?: string;
+  description?: string;
+  class?: string;
+  tagType?: string;
+  file?: string;
+  path?: string;
 }
 
 
@@ -42,6 +50,7 @@ export class PageFormComponent {
   public modulesNames;
   public dbData;
   public Editor = ClassicEditor;
+  public fileLoading: boolean;
 
   expansionsState = [];
 
@@ -49,9 +58,13 @@ export class PageFormComponent {
   validationMessages: object;
   buttonText: string;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private pagesService: PagesService
+  ) {
     this.profile = {};
     this.validationMessages = validationMessages;
+    this.fileLoading = false;
   }
 
   onSubmit() {
@@ -91,6 +104,27 @@ export class PageFormComponent {
     }
     this.createForm();
     this.buttonText = this.Provider.buttonText;
+  }
+
+  onFileChanged(event, moduleIndex) {
+    const reader = new FileReader();
+
+    const [file] = event.target.files;
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      this.fileLoading = true;
+      this.pagesService.uploadFile({
+        name: file.name,
+        image: reader.result
+      }).subscribe(event => {
+        const { body } = event;
+        if (!(body && body.path)) return;
+        console.log(body.path); // handle event here
+        this.modulesList.controls[moduleIndex].patchValue({ path: body.path });
+        this.fileLoading = false;
+      });
+    }
   }
 
 
@@ -160,8 +194,17 @@ export class PageFormComponent {
       case 'title':
       this.modulesList.push(this.createTitle(values));
       break;
-      case 'form':
-      this.modulesList.push(this.createPageForm(values));
+      case 'customForm':
+      this.modulesList.push(this.createCustomPageForm(values));
+      break;
+      case 'predefinedElement':
+      this.modulesList.push(this.createPredefinedElement(values));
+      break;
+      case 'textAndButton':
+      this.modulesList.push(this.createtextAndButton(values));
+      break;
+      case 'accordion':
+      this.modulesList.push(this.createAccordion(values));
       break;
     }
   }
@@ -175,9 +218,11 @@ export class PageFormComponent {
   createButton(values: Module = {}): FormGroup {
     return this.formBuilder.group({
       type: 'button',
+      tagType: values.tagType || '',
       text: values.text || '',
       url: values.url || '',
-      target: values.target || ''
+      target: values.target || '',
+      class: values.class || ''
      // type: ['type', Validators.compose([Validators.required])], // i.e Email, Phone
     });
   }
@@ -187,7 +232,7 @@ export class PageFormComponent {
       type: 'photo',
       title: values.title || '',
       alt: values.alt || '',
-      url: values.url || ''
+      path: values.path || ''
     });
   }
 
@@ -205,16 +250,44 @@ export class PageFormComponent {
     });
   }
 
-  createPageForm(values: Module = {}): FormGroup {
-    console.log('form');
+  createCustomPageForm(values: Module = {}): FormGroup {
     return this.formBuilder.group({
-      type: 'form',
+      type: 'customForm',
       text: values.text || '',
       inputs: values.inputs || '',
       title: values.title || '',
       email: values.email || ''
     });
   }
+
+  createPredefinedElement(values: Module = {}): FormGroup {
+    return this.formBuilder.group({
+      type: 'predefinedElement',
+      formType: values.formType || ''
+    });
+  }
+
+
+  createtextAndButton(values: Module = {}): FormGroup {
+    return this.formBuilder.group({
+      type: 'textAndButton',
+      text: values.text || '',
+      url: values.url || '',
+      target: values.target || '',
+      class: values.class || '',
+      description: values.description || ''
+    });
+  }
+
+  createAccordion(values: Module = {}): FormGroup {
+    return this.formBuilder.group({
+      type: 'accordion',
+      title: values.title || '',
+      text: values.text || ''
+    });
+    
+  }
+
 
 
 

@@ -34,11 +34,14 @@
     </div>
   </div>
   <h2>Zawartość strony</h2>
-  <button mat-button class="btn btn-module" type="button" (click)="addModule('button')"> Dodaj przycisk </button>
+  <button mat-button class="btn btn-module" type="button" (click)="addModule('button')"> Dodaj odnośnik </button>
   <button mat-button class="btn btn-module" type="button" (click)="addModule('photo')"> Dodaj zdjęcie </button>
   <button mat-button class="btn btn-module" type="button" (click)="addModule('text')"> Dodaj tekst </button>
   <button mat-button class="btn btn-module" type="button" (click)="addModule('title')"> Dodaj tytuł </button>
-  <button mat-button class="btn btn-module" type="button" (click)="addModule('form')"> Dodaj formularz </button>
+  <button mat-button class="btn btn-module" type="button" (click)="addModule('customForm')"> Dodaj formularz </button>
+  <button mat-button class="btn btn-module" type="button" (click)="addModule('predefinedElement')"> Dodaj predefiniowany element</button>
+  <button mat-button class="btn btn-module" type="button" (click)="addModule('textAndButton')"> Dodaj przycisk z opisem </button>
+  <button mat-button class="btn btn-module" type="button" (click)="addModule('accordion')"> Dodaj rozwijane pole</button>
   <div class="card-body" formArrayName="modules" cdkDropList (cdkDropListDropped)="drop($event)">
     <div class="col-12" *ngFor="let module of modulesFormGroup.controls; let i = index;" cdkDrag>
       <div [formGroupName]="i" class="row" >
@@ -47,11 +50,19 @@
         <div class="module-block full" *ngIf="moduleName(i, 'button')">
             <mat-expansion-panel (opened)="setExpansionState(i, true)" (closed)="setExpansionState(i, false)">
             <mat-expansion-panel-header>
-                <mat-panel-title>Button</mat-panel-title>
+                <mat-panel-title>Odnosnik</mat-panel-title>
                 <mat-panel-description>
                   modul {{expansionsState[i] ? 'otwarty' : 'zamknięty'}}
                 </mat-panel-description>
             </mat-expansion-panel-header>
+
+            <mat-form-field>
+              <mat-label>Rodzaj przycisku:</mat-label>
+              <mat-select formControlName="tagType">
+                <mat-option value="link">link</mat-option>
+                <mat-option value="button">przycisk</mat-option>
+              </mat-select>
+            </mat-form-field>
 
             <mat-form-field>
               <mat-label>Tekst przycisku</mat-label>
@@ -68,6 +79,14 @@
               <mat-select formControlName="target">
                 <mat-option value="true">Otwierać w nowej zakładce</mat-option>
                 <mat-option value="false">Pozostać w obecnej zakładce</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Wygląd przycisku:</mat-label>
+              <mat-select formControlName="class">
+                <mat-option value="solid">Wypełniony</mat-option>
+                <mat-option value="outlined">Z obrysem</mat-option>
               </mat-select>
             </mat-form-field>
 
@@ -96,9 +115,17 @@
               </mat-form-field>
 
               <mat-form-field>
-                <mat-label>Adres url obrazu</mat-label>
-                <input matInput type="text" formControlName="url">
+                <mat-label>Path</mat-label>
+                <input matInput type="text" formControlName="path">
               </mat-form-field>
+
+              <div>
+                <label>Wgraj obraz</label>
+                <input type="file" (change)="onFileChanged($event, i)">
+              </div>
+
+              <div *ngIf="fileLoading"><span>Ładowanie obrazka</span></div>
+              
 
               <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
             </mat-expansion-panel>
@@ -137,12 +164,12 @@
           </mat-expansion-panel>
         </div>
 
-        <!-- Form module -->
-        <div class="module-block full" *ngIf="moduleName(i, 'form')">
+        <!-- Custom form module -->
+        <div class="module-block full" *ngIf="moduleName(i, 'customForm')">
             <mat-expansion-panel (opened)="setExpansionState(i, true)" (closed)="setExpansionState(i, false)">
 
               <mat-expansion-panel-header>
-                  <mat-panel-title>Formularz</mat-panel-title>
+                  <mat-panel-title>Własny formularz</mat-panel-title>
                   <mat-panel-description>
                     modul {{expansionsState[i] ? 'otwarty' : 'zamknięty'}}
                   </mat-panel-description>
@@ -170,6 +197,101 @@
                   <mat-option value="userText">Pole tekstowe</mat-option>
                 </mat-select>
               </mat-form-field>
+
+              <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
+            </mat-expansion-panel>
+          </div>
+
+          <!-- Predefined elements module -->
+          <div class="module-block full" *ngIf="moduleName(i, 'predefinedElement')">
+            <mat-expansion-panel (opened)="setExpansionState(i, true)" (closed)="setExpansionState(i, false)">
+
+              <mat-expansion-panel-header>
+                  <mat-panel-title>Predefiniowany element</mat-panel-title>
+                  <mat-panel-description>
+                    modul {{expansionsState[i] ? 'otwarty' : 'zamknięty'}}
+                  </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <mat-form-field>
+                <mat-label>Wybierz element</mat-label>
+                <mat-select (value)="selected" formControlName="formType">
+                  <mat-option value="loginForm">Logowanie</mat-option>
+                  <mat-option value="registrationForm">Rejestracja</mat-option>
+                  <mat-option value="registrationSecondForm">Rejestracja etap-2</mat-option>
+                  <mat-option value="lostPasswordForm">Utracone hasło</mat-option>
+                  <mat-option value="contactForm">Formularz kontaktowy</mat-option>
+                  <mat-option value="registrationSteps">Sposób rejestracji</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
+            </mat-expansion-panel>
+          </div>
+
+          <!-- Text and button -->
+          <div class="module-block full" *ngIf="moduleName(i, 'textAndButton')">
+            <mat-expansion-panel (opened)="setExpansionState(i, true)" (closed)="setExpansionState(i, false)">
+              <mat-expansion-panel-header>
+                  <mat-panel-title>Tekst i przycisk</mat-panel-title>
+                  <mat-panel-description>
+                    modul {{expansionsState[i] ? 'otwarty' : 'zamknięty'}}
+                  </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <mat-form-field>
+                <mat-label>Treść obok przycisku</mat-label>
+                <input matInput type="text" formControlName="description">
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Tekst przycisku</mat-label>
+                <input matInput type="text" formControlName="text">
+              </mat-form-field>
+  
+              <mat-form-field>
+                <mat-label>Adres url</mat-label>
+                <input matInput type="text" formControlName="url">
+              </mat-form-field>
+  
+              <mat-form-field>
+                <mat-label>Sposób obsługi zdarzenia</mat-label>
+                <mat-select formControlName="target">
+                  <mat-option value="true">Otwierać w nowej zakładce</mat-option>
+                  <mat-option value="false">Pozostać w obecnej zakładce</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Wygląd przycisku:</mat-label>
+                <mat-select formControlName="class">
+                  <mat-option value="solid">Wypełniony</mat-option>
+                  <mat-option value="outlined">Z obrysem</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
+            </mat-expansion-panel>
+          </div>
+
+          <!-- Accordion -->
+          <div class="module-block full" *ngIf="moduleName(i, 'accordion')">
+            <mat-expansion-panel (opened)="setExpansionState(i, true)" (closed)="setExpansionState(i, false)">
+              <mat-expansion-panel-header>
+                  <mat-panel-title>Rozwijane pole</mat-panel-title>
+                  <mat-panel-description>
+                    modul {{expansionsState[i] ? 'otwarty' : 'zamknięty'}}
+                  </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <mat-form-field>
+                <mat-label>Tytuł</mat-label>
+                <input matInput type="text" formControlName="title">
+              </mat-form-field>
+
+              <div class='ck-wrapper'>
+                <ckeditor formControlName="text" [editor]="Editor" [data]='prop' [(ngModel)]="modulesList.controls[i].value.text" ></ckeditor>
+              </div>
 
               <button mat-button class="btn btn-danger" type="button" (click)="removeModule(i)"> Usuń </button>
             </mat-expansion-panel>

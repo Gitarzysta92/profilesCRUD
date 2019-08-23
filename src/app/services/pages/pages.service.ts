@@ -14,11 +14,21 @@ import { Page } from './page';
 export class PagesService {
 
   private pagesUrl = `${url}/api/pages`;
+  private filesUrl = `${url}/api/files`;
 
   constructor(
     private http: HttpClient,
     private messageService: MessageService,
   ) { }
+
+  public uploadFile(file) {
+    return this.http.post(`${this.filesUrl}`, file, {
+      reportProgress: true,
+      observe: 'events'
+    }).pipe(
+        catchError(this.handleError<Page>('addPage'))
+      )
+  }
 
   public addPage(page: Page): Observable<Page> {
     return this.http.post<Page>(`${this.pagesUrl}`, page)
