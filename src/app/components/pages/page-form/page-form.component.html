@@ -33,6 +33,14 @@
       </mat-form-field>
     </div>
   </div>
+  <div class="row" *ngIf="pageForm.controls.menu.value.length > 0">
+    <div class="col">
+      <mat-form-field>
+        <mat-label>Kolejność w menu</mat-label>
+        <input matInput placeholder="numer w menu" type="number" formControlName="menuPosition">
+      </mat-form-field>
+    </div>
+  </div>
   <h2>Zawartość strony</h2>
   <button mat-button class="btn btn-module" type="button" (click)="addModule('button')"> Dodaj odnośnik </button>
   <button mat-button class="btn btn-module" type="button" (click)="addModule('photo')"> Dodaj zdjęcie </button>

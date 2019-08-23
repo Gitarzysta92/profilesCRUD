@@ -17,6 +17,16 @@ interface Provider {
   userData?: any;
 }
 
+interface HttpResponse {
+  body: any;
+  headers: object;
+  ok: boolean;
+  status: number;
+  statusText: string;
+  type: number;
+  url: string;
+}
+
 interface Module {
   type?: string;
   title?: string;
@@ -117,7 +127,8 @@ export class PageFormComponent {
       this.pagesService.uploadFile({
         name: file.name,
         image: reader.result
-      }).subscribe(event => {
+      }).subscribe((event: HttpResponse) => {
+        console.log(event);
         const { body } = event;
         if (!(body && body.path)) return;
         console.log(body.path); // handle event here
@@ -133,6 +144,7 @@ export class PageFormComponent {
       path: '',
       title: '',
       menu: '',
+      menuPosition: '',
       modules: this.formBuilder.array([])
     });
     this.modulesList = this.pageForm.get('modules') as FormArray;
