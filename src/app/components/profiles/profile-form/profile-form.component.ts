@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Profile } from '../../../services/profiles/profile';
 import { validationMessages } from './validation-messages';
+import * as bcrypt from 'bcryptjs';
 
 const countries = ['Polish', 'English', 'French', 'Italian', 'German'];
 
@@ -30,6 +31,8 @@ export class ProfileFormComponent {
   validationMessages: object;
   buttonText: string;
   profileStatus: object[] = [ { value: true, view: 'Active' }, { value: false, view: 'Inactive' }]
+  passwordPlaceholder: string = '*************';
+  currentUserPasswordTemp: string;
 
 
   constructor(private formBuilder: FormBuilder) {
@@ -40,15 +43,33 @@ export class ProfileFormComponent {
   }
 
   onSubmit() {
-    const updatedData = Object.assign(this.profile, this.profileForm.value);
     if (this.profileForm.invalid) return;
+
+    const updatedData = Object.assign(this.profile, this.profileForm.value);
+    
+    if (this.passwordPlaceholder === updatedData.password && this.currentUserPasswordTemp) {
+      updatedData.password = this.currentUserPasswordTemp;
+    } else {
+      const saltRounds = 10;
+		  const salt = bcrypt.genSaltSync(saltRounds);
+      const hashedPassword = bcrypt.hashSync(updatedData.password, salt);
+      updatedData.password = hashedPassword;
+    }
+    console.log(updatedData);
     this.Provider.callback(updatedData);
+    this.currentUserPasswordTemp = null;
   }
 
   ngOnInit() {
     if (this.Provider.userData) {
       this.Provider.userData
-        .subscribe(res => res && this.profileForm.patchValue(res))
+        .subscribe(res => {
+          if (!res) return
+          res.password 
+          && (this.currentUserPasswordTemp = res.password)
+          && (res.password = this.passwordPlaceholder);
+          this.profileForm.patchValue(res)
+        })
     } 
     this.buttonText = this.Provider.buttonText;
   }
@@ -57,25 +78,25 @@ export class ProfileFormComponent {
   createForm() {
     this.profileForm = this.formBuilder.group({
       name: ['', Validators.compose([
-       // Validators.maxLength(25),
-		   // Validators.minLength(1),
-		   // Validators.pattern('^[a-zA-Z]+'),
+        Validators.maxLength(25),
+		    Validators.minLength(1),
+		    Validators.pattern('^[AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpRrSsŚśTtUuWwYyZzŹźŻż]+'),
         Validators.required
       ])],
       surname: ['', Validators.compose([
-       // Validators.maxLength(25),
-		   // Validators.minLength(1),
-		    //Validators.pattern('^[a-zA-Z]+'),
+        Validators.maxLength(25),
+		    Validators.minLength(1),
+		    Validators.pattern('^[AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpRrSsŚśTtUuWwYyZzŹźŻż]+'),
         Validators.required
       ])],
       phone: ['', Validators.compose([
-       // Validators.maxLength(25),
-		   // Validators.minLength(5),
-		  //  Validators.pattern('[+][0-9]{2}(\\s[0-9]{3})+'),
+        Validators.maxLength(25),
+		    Validators.minLength(5),
+		    Validators.pattern('[0-9 ]+'),
         Validators.required
       ])],
       email: ['', Validators.compose([
-		   // Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+		    Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
         Validators.required
       ])],
       type: ['', Validators.compose([
@@ -83,10 +104,25 @@ export class ProfileFormComponent {
         Validators.min(0),
         Validators.required
       ])],
-      regDate: ['', Validators.required],
-      address: ['', Validators.required],
-      city: ['', Validators.required],
-      postCode: ['', Validators.required],
+      regDate: ['', Validators.compose([
+        Validators.required
+      ])],
+      address: ['', Validators.compose([
+		    Validators.pattern('[AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpRrSsŚśTtUuWwYyZzŹźŻż0-9, ]+'),
+        Validators.required
+      ])],
+      city: ['', Validators.compose([
+        Validators.maxLength(25),
+		    Validators.minLength(1),
+		    Validators.pattern('^[AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpRrSsŚśTtUuWwYyZzŹźŻż]+'),
+        Validators.required
+      ])],
+      postCode: ['', Validators.compose([
+        Validators.maxLength(10),
+		    Validators.minLength(1),
+		    Validators.pattern('[0-9-]+'),
+        Validators.required
+      ])],
       password: ['', Validators.required]
     });
   }

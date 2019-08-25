@@ -41,12 +41,10 @@ export class PartnerFormComponent {
   }
 
   ngOnInit() {
-    console.log(this.Provider.userData);
     if (this.Provider.userData) {
       this.Provider.userData
         .subscribe(res => {
           res && this.profileForm.patchValue(res);
-         
         })
     } 
     this.buttonText = this.Provider.buttonText;
@@ -56,18 +54,30 @@ export class PartnerFormComponent {
   createForm() {
     this.profileForm = this.formBuilder.group({
       name: ['', Validators.compose([
-       // Validators.maxLength(25),
-		   // Validators.minLength(1),
-		   // Validators.pattern('^[a-zA-Z]+'),
+        Validators.maxLength(50),
+		    Validators.minLength(1),
         Validators.required
       ])],
       email: ['', Validators.compose([
-		   // Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
         Validators.required
       ])],
-      address: ['', Validators.required],
-      city: ['', Validators.required],
-      postCode: ['', Validators.required]
+      address: ['', Validators.compose([
+		    Validators.pattern('[AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpRrSsŚśTtUuWwYyZzŹźŻż0-9, ]+'),
+        Validators.required
+      ])],
+      city: ['', Validators.compose([
+        Validators.maxLength(25),
+		    Validators.minLength(1),
+		    Validators.pattern('^[AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpRrSsŚśTtUuWwYyZzŹźŻż]+'),
+        Validators.required
+      ])],
+      postCode: ['', Validators.compose([
+        Validators.maxLength(10),
+		    Validators.minLength(1),
+		    Validators.pattern('[0-9-]+'),
+        Validators.required
+      ])]
     });
   }
 }
